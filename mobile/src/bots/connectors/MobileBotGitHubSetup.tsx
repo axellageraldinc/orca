@@ -103,7 +103,12 @@ export function MobileBotGitHubSetup(props: {
   useEffect(() => {
     if (trip.status === 'linked' && step === 'turn-on' && !resumed.current) {
       resumed.current = true
-      void turnOn()
+      // Add account, Refresh and Reconnect only link again, as the desktop's; the bot stays as it is.
+      if (props.signIn) {
+        props.onClose()
+      } else {
+        void turnOn()
+      }
     }
   })
 

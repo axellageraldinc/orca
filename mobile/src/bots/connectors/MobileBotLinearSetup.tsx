@@ -148,7 +148,12 @@ export function MobileBotLinearSetup(props: {
   useEffect(() => {
     if (linkedTurnOn && !resumed.current) {
       resumed.current = true
-      void turnOn(linkedTurnOn)
+      // Reconnect only links again, as the desktop's; the bot's workspaces stay as they are.
+      if (props.signIn) {
+        props.onClose()
+      } else {
+        void turnOn(linkedTurnOn)
+      }
     }
   })
 
