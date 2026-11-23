@@ -109,6 +109,10 @@ export function MobileBotLinearSetup(props: {
     if (linear.view.status === 'failed') {
       return { kind: 'failed', code: linear.view.error }
     }
+    // A sign-in this page opened for that failed shows its error, not the link it replaced.
+    if (props.signIn && trip.status === 'failed') {
+      return { kind: 'connect', error: trip.error }
+    }
     const { workspaces, installUrl } = linear.view.value
     // The trip's workspace first, then the row's own, then the only one linked.
     const wanted =
@@ -241,7 +245,7 @@ export function MobileBotLinearSetup(props: {
               label={t('bots.linear.connect.button', 'Connect Linear')}
               icon={ArrowUpRight}
               disabled={!props.online}
-              onPress={() => start()}
+              onPress={() => start(props.signIn)}
             />
             <SettingsNote>
               {t('bots.connect.opensOnHost', 'Opens in Orca’s browser on {{host}}.', {

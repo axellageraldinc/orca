@@ -1,5 +1,5 @@
 // Connectors' Linear, GitHub, Google and Composio pages and their setups, as the list opens them.
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, type Dispatch, type ReactNode, type SetStateAction } from 'react'
 import { botLinearWorkspaces, type BotMember } from '../../../../src/shared/bot-types'
 import { composioAppName } from '../../../../src/shared/composio/composio-curated-apps'
 import type { BotUpdateParams } from '../../../../src/shared/rpc-contract/bots-params'
@@ -45,12 +45,15 @@ export type AccountPagesContext = {
 export function MobileBotConnectorAccountPage(
   props: AccountPagesContext & {
     page: AccountConnectorPage
-    setPage: (page: ConnectorPage) => void
+    setPage: Dispatch<SetStateAction<ConnectorPage>>
   }
 ) {
   const t = useMobileTranslation()
   const { page, setPage, bot } = props
   const list = () => setPage({ kind: 'list' })
+  // A setup opens only from the page still showing: Reconnect's unlink may answer after Back.
+  const openFromHere = (next: ConnectorPage) =>
+    setPage((current) => (current === page ? next : current))
   const github = props.github.view.status === 'ready' ? props.github.view.value : null
   const shown = githubOrgsOf(bot, github)
   const workspace =
@@ -103,7 +106,7 @@ export function MobileBotConnectorAccountPage(
           linear={props.linear}
           onBack={list}
           onSetUp={(workspaceId, signIn) =>
-            setPage({
+            openFromHere({
               kind: 'linear-setup',
               workspaceId,
               from: page,
@@ -133,7 +136,7 @@ export function MobileBotConnectorAccountPage(
           github={props.github}
           onBack={list}
           onSetUp={(signIn) =>
-            setPage({ kind: 'github-setup', from: page, ...(signIn ? { signIn: true } : {}) })
+            openFromHere({ kind: 'github-setup', from: page, ...(signIn ? { signIn: true } : {}) })
           }
         />
       )

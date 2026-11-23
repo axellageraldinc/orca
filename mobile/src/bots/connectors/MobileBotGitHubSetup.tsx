@@ -82,7 +82,8 @@ export function MobileBotGitHubSetup(props: {
         ? 'checking'
         : !state
           ? 'failed'
-          : !state.account
+          : // A sign-in this page opened for that failed shows its error, not the account it replaced.
+            !state.account || (props.signIn && trip.status === 'failed')
             ? 'connect'
             : state.installations.length === 0
               ? 'install'
@@ -190,7 +191,7 @@ export function MobileBotGitHubSetup(props: {
               label={t('bots.github.connect.button', 'Connect GitHub')}
               icon={ArrowUpRight}
               disabled={!props.online}
-              onPress={() => start()}
+              onPress={() => start(props.signIn)}
             />
             <SettingsNote>
               {t('bots.connect.opensOnHost', 'Opens in Orca’s browser on {{host}}.', {
