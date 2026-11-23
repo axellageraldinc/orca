@@ -15,7 +15,7 @@ import {
   type PhoneConnectorSources
 } from './connector-entry-rows'
 import type { ConnectorPage } from './connector-pages'
-import { usePhoneGoogleStatus } from './MobileBotGooglePage'
+import { usePhoneGoogleStatus } from './phone-google-accounts'
 import { usePhoneBotSlack } from './use-phone-bot-slack'
 import { usePhoneGitHubAccount, usePhoneLinearAccount } from './use-phone-connector-account'
 

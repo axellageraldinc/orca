@@ -24,7 +24,7 @@ import { ConnectorHandoff, useFollowHost } from './MobileConnectorAccountParts'
 import { connectorAccountErrorMessage, linearWorkspaceLabel } from './mobile-connector-account-copy'
 import { MobileConnectorTryIt } from './MobileConnectorTryIt'
 import type { PhoneLinearView } from './use-phone-connector-account'
-import { usePhoneConnectTrip } from './use-phone-connect-trip'
+import { usePhoneConnectTrip, useSignInOnOpen } from './use-phone-connect-trip'
 
 // Linear never returns from its own error page, so after this long the wait says what it likely is.
 const STUCK_MS = 30_000
@@ -59,6 +59,8 @@ export function MobileBotLinearSetup(props: {
   bot: PhoneBot
   /** A row's own workspace; none from Add a connector, which picks another than the bot's. */
   workspaceId: string | undefined
+  /** Opens on Linear's sign-in with the account picker. */
+  signIn: boolean
   linear: { view: PhoneLinearView; refresh: () => Promise<void> }
   hostName: string
   online: boolean
@@ -83,6 +85,7 @@ export function MobileBotLinearSetup(props: {
     bot.folderWorkspaceId,
     linear.refresh
   )
+  useSignInOnOpen(props.signIn, start)
   useBackClaim(() => {
     if (done) {
       props.onDone(done)

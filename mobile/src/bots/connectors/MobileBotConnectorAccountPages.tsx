@@ -15,10 +15,11 @@ import { MobileBotComposioApp } from './MobileBotComposioApp'
 import { MobileBotGitHubPage } from './MobileBotGitHubPage'
 import { MobileBotGitHubSetup } from './MobileBotGitHubSetup'
 import { MobileBotGoogleConnect } from './MobileBotGoogleConnect'
-import { MobileBotGooglePage, type PhoneGoogle } from './MobileBotGooglePage'
+import { MobileBotGooglePage } from './MobileBotGooglePage'
 import { MobileBotLinearPage } from './MobileBotLinearPage'
 import { MobileBotLinearSetup } from './MobileBotLinearSetup'
 import type { useConnectorPeople } from './MobileConnectorAccountParts'
+import type { PhoneGoogle } from './phone-google-accounts'
 import type { PhoneGitHubView, PhoneLinearView } from './use-phone-connector-account'
 
 export type AccountPagesContext = {
@@ -101,7 +102,14 @@ export function MobileBotConnectorAccountPage(
           workspace={workspace}
           linear={props.linear}
           onBack={list}
-          onSetUp={(workspaceId) => setPage({ kind: 'linear-setup', workspaceId, from: page })}
+          onSetUp={(workspaceId, signIn) =>
+            setPage({
+              kind: 'linear-setup',
+              workspaceId,
+              from: page,
+              ...(signIn ? { signIn: true } : {})
+            })
+          }
         />
       ) : null
     case 'linear-setup':
@@ -109,6 +117,7 @@ export function MobileBotConnectorAccountPage(
         <MobileBotLinearSetup
           {...scope}
           workspaceId={page.workspaceId}
+          signIn={page.signIn === true}
           linear={props.linear}
           save={props.save}
           onClose={() => setPage(page.from)}
@@ -123,13 +132,16 @@ export function MobileBotConnectorAccountPage(
           installation={shown.find((entry) => entry.installationId === page.installationId) ?? null}
           github={props.github}
           onBack={list}
-          onSetUp={() => setPage({ kind: 'github-setup', from: page })}
+          onSetUp={(signIn) =>
+            setPage({ kind: 'github-setup', from: page, ...(signIn ? { signIn: true } : {}) })
+          }
         />
       )
     case 'github-setup':
       return (
         <MobileBotGitHubSetup
           {...scope}
+          signIn={page.signIn === true}
           github={props.github}
           save={props.save}
           onClose={() => setPage(page.from)}

@@ -154,3 +154,14 @@ export function usePhoneConnectTrip(
 
   return { trip, start, cancel }
 }
+
+/** Starts the sign-in with the account picker once, as the page opens, when it opened for one. */
+export function useSignInOnOpen(signIn: boolean, start: (switchAccount: boolean) => void): void {
+  const started = useRef(false)
+  useEffect(() => {
+    if (signIn && !started.current) {
+      started.current = true
+      start(true)
+    }
+  }, [signIn, start])
+}

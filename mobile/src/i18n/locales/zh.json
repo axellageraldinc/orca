@@ -8131,8 +8131,7 @@
         "toFixOne": "快完成了：还有 1 个问题需要解决",
         "toFix": "快完成了：还有 {{count}} 个问题需要处理"
       },
-      "signInOnHost": "在 {{host}} 上重新登录 Google",
-      "moreOnHost": "请在 {{host}} 上的 Orca 中添加服务或共享配置"
+      "signInOnHost": "在 {{host}} 上重新登录 Google"
     },
     "saveFailed": "无法保存",
     "sheet": {

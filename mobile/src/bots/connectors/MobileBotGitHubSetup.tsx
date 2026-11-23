@@ -27,7 +27,7 @@ import { ConnectorHandoff, useFollowHost } from './MobileConnectorAccountParts'
 import { connectorAccountErrorMessage } from './mobile-connector-account-copy'
 import { MobileConnectorTryIt } from './MobileConnectorTryIt'
 import type { PhoneGitHubView } from './use-phone-connector-account'
-import { usePhoneConnectTrip } from './use-phone-connect-trip'
+import { usePhoneConnectTrip, useSignInOnOpen } from './use-phone-connect-trip'
 
 /** The repositories as one line, as the desktop's gitHubInstallationLabel. */
 function gitHubRepositoriesLine(
@@ -43,6 +43,8 @@ export function MobileBotGitHubSetup(props: {
   client: RpcClient | null
   bot: PhoneBot
   github: { view: PhoneGitHubView; refresh: () => Promise<void> }
+  /** Opens on GitHub's sign-in with the account picker. */
+  signIn: boolean
   hostName: string
   online: boolean
   banner: ReactNode
@@ -63,6 +65,7 @@ export function MobileBotGitHubSetup(props: {
     bot.folderWorkspaceId,
     github.refresh
   )
+  useSignInOnOpen(props.signIn, start)
   useBackClaim(() => {
     if (done) {
       props.onDone()
