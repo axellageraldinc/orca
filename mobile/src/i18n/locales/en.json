@@ -7841,6 +7841,10 @@
       "removeServer": "Remove {{server}}",
       "tooltip": "Bots and agents on these servers can ask {{name}} without asking you each time.",
       "unnamed": "Paired server"
+    },
+    "usageLimit": {
+      "continuesAt": "Continues at {{time}}",
+      "hitLimit": "Hit limit · resets {{time}}"
     }
   },
   "mobileWebShell": {

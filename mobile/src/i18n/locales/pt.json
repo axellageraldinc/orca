@@ -5852,6 +5852,10 @@
       "today": "hoje",
       "yesterday": "ontem",
       "lastTidied": "última arrumação {{when}}"
+    },
+    "usageLimit": {
+      "continuesAt": "Continua às {{time}}",
+      "hitLimit": "Limite atingido · reinicia às {{time}}"
     }
   },
   "sidebar": {
